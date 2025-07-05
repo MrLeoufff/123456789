@@ -42,4 +42,18 @@ async function fetchData(): Promise<void> {
   }
 }
 
+const routes: Record<string, () => Promise<any>> = {
+  "/": () => import("./pages/index"),
+  "/is2024": () => import("./pages/is2024"),
+  "/bilan": () => import("./pages/bilan"),
+  "/fiscalite": () => import("./pages/fiscalite"),
+  "/portefeuille": () => import("./pages/portefeuille"),
+  "/suivi-prod": () => import("./pages/suiviProd"),
+  "/tva": () => import("./pages/tva"),
+};
+
+const path = window.location.pathname;
+routes[path]?.();
+
+
 fetchData();
