@@ -13,6 +13,19 @@ services:
     volumes:
       - ./docker/db:/var/lib/mysql
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=compta_user
+      - PMA_PASSWORD=compta_pass
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+
   backend:
     build:
       context: ./backend
