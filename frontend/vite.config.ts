@@ -1,12 +1,22 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
-export default defineConfig({
-  server: {
-    proxy: {
-      '/api': 'http://symfony_backend',
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd()); // Charge les variables d'env
+
+  return {
+    define: {
+      'process.env': env,
     },
-    host: true,       // Permet l'accès externe
-    port: 5173,       // Fixe bien le port
-    strictPort: true, // Fait échouer si le port est occupé
-  },
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8080/api', // Proxy Docker (backend)
+          changeOrigin: true,
+        },
+      },
+      host: true,       // Permet l'accès depuis l'extérieur (docker ou réseau local)
+      port: 5173,       // Fixe le port de dev
+      strictPort: true, // Fait échouer si le port est déjà pris
+    },
+  };
 });

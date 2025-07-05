@@ -43,17 +43,19 @@ async function fetchData(): Promise<void> {
 }
 
 const routes: Record<string, () => Promise<any>> = {
-  "/": () => import("./pages/index"),
-  "/is2024": () => import("./pages/is2024"),
-  "/bilan": () => import("./pages/bilan"),
-  "/fiscalite": () => import("./pages/fiscalite"),
-  "/portefeuille": () => import("./pages/portefeuille"),
-  "/suivi-prod": () => import("./pages/suiviProd"),
-  "/tva": () => import("./pages/tva"),
+  "/": () => import("./pages/index").then((m) => m.default()),
+  "/is2024": () => import("./pages/is2024").then((m) => m.default()),
+  "/bilan": () => import("./pages/bilan").then((m) => m.default()),
+  "/fiscalite": () => import("./pages/fiscalite").then((m) => m.default()),
+  "/portefeuille": () => import("./pages/portefeuille").then((m) => m.default()),
+  "/suivi-prod": () => import("./pages/suiviProd").then((m) => m.default()),
+  "/tva": () => import("./pages/tva").then((m) => m.default()),
 };
+
 
 const path = window.location.pathname;
 routes[path]?.();
+
 
 
 fetchData();

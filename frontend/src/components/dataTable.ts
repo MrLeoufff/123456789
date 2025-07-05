@@ -1,4 +1,6 @@
 export function renderTable(data: any[], container: HTMLElement) {
+  container.innerHTML = ""; // Vide avant d'afficher
+
   if (data.length === 0) {
     container.innerHTML = "<p>Aucune donnée disponible.</p>";
     return;
@@ -24,7 +26,7 @@ export function renderTable(data: any[], container: HTMLElement) {
     const tr = document.createElement("tr");
     Object.values(row).forEach((cell) => {
       const td = document.createElement("td");
-      td.textContent = String(cell);
+      td.textContent = cell !== null ? String(cell) : "";
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
