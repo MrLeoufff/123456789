@@ -1,0 +1,21 @@
+echo "
+# Fichiers sensibles Docker
+/docker/db/*
+!/docker/db/.gitkeep
+
+# Symfony & PHP
+/backend/var/
+!/backend/var/.gitkeep
+/backend/vendor/
+!.env.local
+/.env.local
+/backend/.env.local
+
+# NodeJS
+/frontend/node_modules/
+/frontend/dist/
+
+# Divers
+.DS_Store
+*.log
+" > .gitignore
