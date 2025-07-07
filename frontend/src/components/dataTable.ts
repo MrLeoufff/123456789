@@ -1,37 +1,30 @@
-export function renderTable(data: any[], container: HTMLElement) {
-  container.innerHTML = ""; // Vide avant d'afficher
+import axios from 'axios';
 
-  if (data.length === 0) {
-    container.innerHTML = "<p>Aucune donnée disponible.</p>";
-    return;
+export interface Is2024 {
+  code: string;
+  nom: string;
+  ville: string;
+  telFixe: string;
+  telPortable: string;
+  siren: string;
+}
+
+type ApiResponse = {
+  member?: Is2024[];
+  'hydra:member'?: Is2024[];
+};
+
+// Fonction pour récupérer les données (sans afficher)
+export async function fetchIs2024Data(): Promise<Is2024[]> {
+  const apiUrl = `${import.meta.env.VITE_API_URL}/is2024s`;
+
+  try {
+    const response = await axios.get<ApiResponse>(apiUrl);
+    const data = response.data.member ?? response.data['hydra:member'] ?? [];
+    console.log("Réponse API complète :", response.data);
+    return data;
+  } catch (error) {
+    console.error('Erreur API :', error);
+    throw error;
   }
-
-  const table = document.createElement("table");
-  table.className = "table table-striped table-bordered";
-
-  const thead = document.createElement("thead");
-  const headerRow = document.createElement("tr");
-
-  Object.keys(data[0]).forEach((col) => {
-    const th = document.createElement("th");
-    th.textContent = col;
-    headerRow.appendChild(th);
-  });
-
-  thead.appendChild(headerRow);
-  table.appendChild(thead);
-
-  const tbody = document.createElement("tbody");
-  data.forEach((row) => {
-    const tr = document.createElement("tr");
-    Object.values(row).forEach((cell) => {
-      const td = document.createElement("td");
-      td.textContent = cell !== null ? String(cell) : "";
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
-
-  table.appendChild(tbody);
-  container.appendChild(table);
 }

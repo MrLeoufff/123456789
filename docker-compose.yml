@@ -47,6 +47,8 @@ services:
       sh -c "
       composer install &&
       php bin/console doctrine:migrations:migrate --no-interaction &&
+      app:import-excel &&
+      php bin/console cache:clear &&
       apache2-foreground"
 
   frontend:
